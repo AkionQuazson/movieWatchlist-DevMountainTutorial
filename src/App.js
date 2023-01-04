@@ -23,6 +23,13 @@ function App() {
       getData();
   }, [page]);
 
+  const removeMovie = (movie) => {
+	const newState = watchList.filter((mov) => {
+		return mov !== movie;
+	});
+	setWatchList(newState);
+  }
+
   return (
     <div className="App">
       <Header />
