@@ -1,5 +1,6 @@
 import {useEffect, useState} from 'react';
 import Header from './components/Header.jsx';
+import Watchlist from './components/Watchlist.jsx';
 import MovieScreen from './components/MovieScreen.jsx';
 import './App.css';
 
@@ -14,7 +15,6 @@ function App() {
       axios
           .get(`https://api.themoviedb.org/3/movie/popular?api_key=${process.env.REACT_APP_API_KEY}&language=en-US&page=${page}`)
           .then((res) => {
-              console.log(res.data.results);
               setMovieList(res.data.results);
           });
   };
@@ -22,6 +22,10 @@ function App() {
   useEffect(() => {
       getData();
   }, [page]);
+
+  const addMovie = (movie) => {
+	setWatchList([...watchList, movie]);
+  }
 
   const removeMovie = (movie) => {
 	const newState = watchList.filter((mov) => {
@@ -39,7 +43,13 @@ function App() {
 			page={page}
 			setPage={setPage}
 			movieList={movieList}
+			addMovie={addMovie}
+			removeMovie={removeMovie}
 		></MovieScreen>
+		<Watchlist
+			list={watchList}
+			removeMovie={removeMovie}
+		></Watchlist>
 	  </main>
     </div>
   );
